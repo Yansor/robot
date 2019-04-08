@@ -1,6 +1,5 @@
 package com.star.robot.util;
 
-import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import java.nio.charset.Charset;
