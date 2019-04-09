@@ -2,7 +2,7 @@ package com.star.robot.controller;
 
 import com.star.robot.dto.CommonRequestDto;
 import com.star.robot.dto.ResultDto;
-import com.star.robot.entity.ProjectClass;
+import com.star.robot.entity.TeamClass;
 import com.star.robot.repository.ProjectClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class ProjectClassController {
         if(requestDto.getId() == null){
             throw new IllegalArgumentException("请求参数ID必填");
         }
-        List<ProjectClass> projectClassList = projectClassRepository.findByParentId(requestDto.getId());
-        return ResultDto.builder().data(projectClassList).build();
+        List<TeamClass> teamClassList = projectClassRepository.findByParentId(requestDto.getId());
+        return ResultDto.builder().data(teamClassList).build();
     }
 }

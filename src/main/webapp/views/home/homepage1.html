@@ -19,7 +19,7 @@
       <div class="layui-card">
         <div class="layui-card-header">/添加单位</div>
         <div class="layui-card-body" pad15>
-          <form action="/company/" method="post">
+          <form action="/company/" method="post" enctype="application/json">
             <div class="layui-form" wid100 lay-filter="demo2">
               <div class="layui-form-item">
                 <label class="layui-form-label">单位名称:</label>
@@ -94,12 +94,32 @@
     index: 'lib/index' //主入口模块
   }).use(['index', 'set']);
 
-  layui.use(['form'],function(){
+
+  //引用jquery
+  // layui.use(['jquery', 'layer'], function(){
+  //   var $ = layui.$ //重点处
+  //           ,layer = layui.layer;
+  //
+  //   //后面就跟你平时使用jQuery一样
+  //   $('body').append('hello jquery');
+  // });
+  layui.use(['jquery','form'],function(){
     var form = layui.form;
+    var $ = layui.$;
     form.on('submit(demo1)', function(data){
-    layer.alert(JSON.stringify(data.field), {
-      title: '最终的提交信息1'
-    })
+      $.ajax(
+              {
+                type:'post',
+                url:'/company/',
+                contentType:'application/json;charset=utf-8',
+                data:JSON.stringify(data.field),
+                dataType:'json',
+                success:function (result,status,xhr){
+                  alert("添加成功");
+                }
+
+              }
+      );
     return false;
   });})
 

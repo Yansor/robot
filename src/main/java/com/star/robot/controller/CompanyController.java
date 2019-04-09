@@ -2,15 +2,23 @@ package com.star.robot.controller;
 
 import com.star.robot.dto.CommonRequestDto;
 import com.star.robot.dto.CompanyRequestDto;
+import com.star.robot.dto.PageResultDto;
 import com.star.robot.dto.ResultDto;
 import com.star.robot.entity.Company;
 import com.star.robot.repository.CompanyRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import sun.print.PageableDoc;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -28,37 +36,51 @@ public class CompanyController {
 
     @ApiOperation(value = "后台单位查询")
     @GetMapping(value = "/")
-    public ResultDto getAll(CompanyRequestDto requestDto){
-        List<Company> companies = companyRepository.findAll(new Specification() {
-            @Override
-            public Predicate toPredicate(Root root, CriteriaQuery cq, CriteriaBuilder cb) {
-
-                //总条件
-                List<Predicate> conditions = new ArrayList<>();
-
-                if(requestDto.getAreaId()!=null){
-                    //所在地区
-                    Predicate areaCondition = cb.equal(root.get("areaId") ,requestDto.getAreaId());
-                    conditions.add(areaCondition);
-                }
-                if(!StringUtils.isEmpty(requestDto.getZhiZhao())){
-                    //单位名称
-                    Predicate nameCondition = cb.like(root.get("zhiZhao") , "%"+requestDto.getZhiZhao()+"%");
-                    conditions.add(nameCondition);
-                }
-                if(requestDto.getCompanyType() != null){
-                    //机构　还是　学校
-                    Predicate typeCondition = cb.equal(root.get("companyType") , requestDto.getCompanyType());
-                    conditions.add(typeCondition);
-                }
-
-                Predicate[] pre = new Predicate[conditions.size()];
-
-                cq.where(conditions.toArray(pre));
-                return cq.getRestriction();
+    public PageResultDto getAll( CompanyRequestDto requestDto){
+        //转换成前端框架接收格式
+        PageResultDto<Company> results = new PageResultDto<>();
+        if(requestDto.getPage() != null && requestDto.getLimit() != null){
+            //后端框架分页从0开始 前端框架从1开始
+            if(requestDto.getPage() >= 1){
+                requestDto.setPage(requestDto.getPage() - 1);
             }
-        });
-        return ResultDto.builder().data(companies).build();
+            Pageable page =new PageRequest(requestDto.getPage() , requestDto.getLimit());
+            Page<Company> companies = companyRepository.findAll(new Specification() {
+                @Override
+                public Predicate toPredicate(Root root, CriteriaQuery cq, CriteriaBuilder cb) {
+
+                    //总条件
+                    List<Predicate> conditions = new ArrayList<>();
+
+                    if(requestDto.getAreaId()!=null){
+                        //所在地区
+                        Predicate areaCondition = cb.equal(root.get("areaId") ,requestDto.getAreaId());
+                        conditions.add(areaCondition);
+                    }
+                    if(!StringUtils.isEmpty(requestDto.getZhiZhao())){
+                        //单位名称
+                        Predicate nameCondition = cb.like(root.get("zhiZhao") , "%"+requestDto.getZhiZhao()+"%");
+                        conditions.add(nameCondition);
+                    }
+                    if(requestDto.getCompanyType() != null){
+                        //机构　还是　学校
+                        Predicate typeCondition = cb.equal(root.get("companyType") , requestDto.getCompanyType());
+                        conditions.add(typeCondition);
+                    }
+
+                    Predicate[] pre = new Predicate[conditions.size()];
+
+                    cq.where(conditions.toArray(pre));
+                    return cq.getRestriction();
+                }
+            } , page);
+
+
+            results.setCount(companies.getTotalElements());
+            results.setData(companies.getContent());
+        }
+
+        return results;
     }
 
     @ApiOperation(value = "后台单位学校删除")

@@ -8,16 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Project {
+public class Team {
     @Id
     @GeneratedValue
     private Long id;
@@ -30,37 +29,11 @@ public class Project {
 
     private String teamName;//队伍名称
 
-    private String member1Name;
+    @OneToMany(mappedBy = "team")
+    private List<TeamMember> teamMembers;
 
-    private String member1Sex; //1 男　2　女
-
-    private String member1Id; //身份证
-
-    private String member1Size;
-
-    private String member2Name;
-
-    private String member2Sex; //1 男　2　女
-
-    private String member2Id; //身份证
-
-    private String member2Size;
-
-    private String member3Name;
-
-    private String member3Sex; //1 男　2　女
-
-    private String member3Id; //身份证
-
-    private String member3Size;
-
-    private String fuDao1Name;
-
-    private String fuDao1Id;//辅导老师1身份证
-
-    private String fuDao2Name;
-
-    private String fuDao2Id;//辅导老师2身份证
+    @OneToMany(mappedBy = "team")
+    private List<TeamLeader> teamLeaders;
 
     private Integer special;//0 普通大类　1 特殊大类　是否显示三张图片
 

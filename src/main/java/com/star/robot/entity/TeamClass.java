@@ -21,7 +21,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @ApiModel
-public class ProjectClass {
+public class TeamClass {
     @Id
     @GeneratedValue
     private Long id;

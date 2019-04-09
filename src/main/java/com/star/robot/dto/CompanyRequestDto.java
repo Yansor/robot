@@ -14,4 +14,5 @@ public class CompanyRequestDto extends Company {
 
     @ApiModelProperty(value = "请求来源:1后台,2前台")
     private Integer requestSource; // 请求来源 1 后台　2 前台
+
 }
