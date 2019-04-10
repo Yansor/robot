@@ -1,7 +1,7 @@
 package com.star.robot.controller;
 
 import com.star.robot.dto.ResultDto;
-import com.star.robot.dto.TeamRequestDto;
+import com.star.robot.dto.TeamRequestFrontDto;
 import com.star.robot.entity.Team;
 import com.star.robot.entity.TeamClass;
 import com.star.robot.repository.ProjectClassRepository;
@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 队伍管理
+ * 前端队伍管理
  */
 @RestController
-@RequestMapping(value = "/team")
+@RequestMapping(value = "/team/front")
 public class TeamController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class TeamController {
     private UserService userService;
 
     @PostMapping
-    public ResultDto add(@RequestBody  TeamRequestDto requestDto, HttpServletRequest request){
+    public ResultDto add(@RequestBody TeamRequestFrontDto requestDto, HttpServletRequest request){
         validateRequestParam(requestDto);
         Team team = new Team();
         BeanUtils.copyProperties(requestDto , team);
@@ -44,6 +44,11 @@ public class TeamController {
         return ResultDto.builder().build();
     }
 
+    /**
+     * 前台专用
+     * @param request
+     * @return
+     */
     @GetMapping
     public ResultDto get(HttpServletRequest request){
         String phone = userService.getCurrentUser(request);
@@ -55,7 +60,10 @@ public class TeamController {
         }
     }
 
-    private void validateRequestParam(TeamRequestDto requestDto) {
+
+
+
+    private void validateRequestParam(TeamRequestFrontDto requestDto) {
         if(requestDto == null || requestDto.getId() != null){
             throw new IllegalArgumentException("添加队伍失败,参数校验异常");
         }

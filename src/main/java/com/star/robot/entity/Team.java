@@ -3,12 +3,14 @@ package com.star.robot.entity;
 /**
  * 项目
  */
+import com.star.robot.enums.TeamGroupTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,11 +23,20 @@ public class Team {
     @GeneratedValue
     private Long id;
 
+    private Long provinceId;
+
+    private Long cityId;
+
+    private Long areaId;
+
+    @OneToOne(mappedBy = "team")
+    private Company company;
+
     private Long class1Id; //第一大类
 
     private Long class2Id; //第二小类
 
-    private Integer groupType; //组别 1小学组　2中学组　3大学组
+    private TeamGroupTypeEnum groupType; //组别 1小学组　2中学组　3大学组
 
     private String teamName;//队伍名称
 
@@ -48,4 +59,6 @@ public class Team {
     private String wordImg;//研究报告或者word文档预览图片
 
     private String phone; //关联用户
+
+    private Date createTime;//创建时间
 }

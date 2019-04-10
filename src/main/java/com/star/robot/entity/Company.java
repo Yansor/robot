@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.star.robot.dto.PageRequestDto;
+import com.star.robot.enums.CompanyTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class Company extends PageRequestDto {
     private String areaId;
 
     @Column
-    private Integer companyType; // 0 学校　1　机构
+    private CompanyTypeEnum companyType; // 1 学校　2　机构
 
     @Column
     private Boolean status;

@@ -5,5 +5,5 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TeamRequestDto extends Team {
+public class TeamRequestFrontDto extends Team {
 }
