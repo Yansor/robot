@@ -3,26 +3,27 @@ package com.star.robot.entity;
 import javax.persistence.*;
 
 /**
- * 辅导老师
+ * 队伍成绩　
  */
+@Table(name = "team_score")
 @Entity
-@Table(name = "team_leader")
-public class TeamLeader {
+public class TeamScore {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @Column
-    private String name;
+    private Float score;//成绩
 
     @Column
-    private String idCard;//身份证
+    private Integer lunCi;//轮次
 
     @Column
-    private String phone;//辅导老师手机号
+    private Boolean status;//fabu
 
     @ManyToOne
     @JoinColumn(name = "team_id",referencedColumnName = "id")
     private Team team;
+
 }

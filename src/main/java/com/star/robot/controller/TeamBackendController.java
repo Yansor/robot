@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -57,7 +56,7 @@ public class TeamBackendController {
 
                     //省
                     if(requestDto.getProvinceId() != null){
-                        Predicate provinceCondition = cb.equal(root.get("provinceId")  , requestDto.getProvinceId());
+                        Predicate provinceCondition = cb.equal(root.get("")  , requestDto.getProvinceId());
                         conditions.add(provinceCondition);
                     }
                     //市

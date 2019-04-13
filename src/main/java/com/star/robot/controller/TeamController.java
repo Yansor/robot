@@ -70,9 +70,6 @@ public class TeamController {
         if(requestDto.getClass1Id() == null){
             throw new IllegalArgumentException("添加队伍失败,项目大类必填");
         }
-        if(requestDto.getClass2Id() == null){
-            throw new IllegalArgumentException("添加队伍失败,项目小类必填");
-        }
         if(requestDto.getGroupType() == null){
             throw new IllegalArgumentException("添加队伍失败,组别必填");
         }

@@ -24,6 +24,9 @@ public class TeamMember {
     @Column
     private TeamClotherSizeEnum size;
 
+    @Column
+    private String school;//所在学校
+
     @ManyToOne
     @JoinColumn(name = "team_id",referencedColumnName = "id")
     private Team team;

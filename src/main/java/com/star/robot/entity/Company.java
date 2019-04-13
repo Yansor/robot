@@ -59,4 +59,10 @@ public class Company extends PageRequestDto {
 
     @Column
     private String invoiceTaxNo;//发票税号
+
+    @Column
+    private String contactPerson;//联系人
+
+    @Column
+    private String contactTel ; //联系电话
 }
